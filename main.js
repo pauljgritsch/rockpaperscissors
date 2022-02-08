@@ -8,6 +8,14 @@ const modal = document.querySelector(".modal")
 
 let playerInput, computerInput;
 
+//adds capitalize method to string
+Object.defineProperty(String.prototype, 'capitalize', {
+    value: function() {
+      return this.charAt(0).toUpperCase() + this.slice(1);
+    },
+    enumerable: false
+  });
+
 // function to choose random input for computer
 function computerPlay() {
     let choices = ["rock", "paper", "scissors"]
@@ -51,30 +59,48 @@ function enableButtons() {
     choices.forEach((choice) => choice.disabled = false)
 }
 
+function colorChoices() {
+    choices.forEach(c => c.style.backgroundColor = "grey")
+    if (playerInput == computerInput) {
+        document.getElementById(`${playerInput}`).style.backgroundColor = "purple"
+    } else {
+        document.getElementById(`${playerInput}`).style.backgroundColor = "green"
+        document.getElementById(`${computerInput}`).style.backgroundColor = "red"
+    }
+}
+
+function resetChoices() {
+    choices.forEach(c => c.style.backgroundColor = "gray")
+}
+
 function guiPlay(input) {
     playerInput = input.target.id
     computerInput = computerPlay()
     let result = playRound(playerInput, computerInput)
     if (result == "win") {
-        roundResult.textContent = `You win! ${playerInput} beats ${computerInput}.`
+        roundResult.textContent = `You win! ${playerInput.capitalize()} beats ${computerInput}.`
         pDisplay.textContent = ++pScore
     } else if (result == "lose") {
-        roundResult.textContent = `You lose! ${computerInput} beats ${playerInput}.`
+        roundResult.textContent = `You lose! ${computerInput.capitalize()} beats ${playerInput}.`
         cDisplay.textContent = ++cScore
     } else {
         roundResult.textContent = 'Round tie!'
     }
+    colorChoices()
 
     if (pScore > 4) {
         roundResult.textContent = 'You won the game!'
         disableButtons()
+        resetChoices()
     }
     if (cScore > 4) {
         roundResult.textContent = 'You lost this game!'
         disableButtons()
+        resetChoices()
     }
     
 }
+
 
 
 const resetGame = () => {
