@@ -1,4 +1,11 @@
-const lastroundresult = document.querySelector("#lastroundresult")
+const choices = document.querySelectorAll(".choice")
+const pDisplay = document.querySelector("#pDisplay")
+const cDisplay = document.querySelector("#cDisplay")
+const roundResult = document.querySelector("#lastRoundResult")
+let pScore = 0;
+let cScore = 0;
+
+let playerInput, computerInput;
 
 // function to choose random input for computer
 function computerPlay() {
@@ -35,55 +42,53 @@ function playRound(playerInput, computerInput) {
     }
 }
 
-function game() {
-    // intitialize variables to keep track of rounds
-    let wins = 0;
-    let losses = 0;
-    let ties = 0;
-    let rounds = 0;
-
-    while (rounds < 5) {
-        let playerInput = prompt("Rock, Paper, or Scissors? ").toLowerCase()
-        let computerInput = computerPlay()
-
-        // input validation
-        let badInput = true
-        while (badInput){
-            if ((playerInput == "rock") || (playerInput == "paper") || (playerInput == "scissors")){
-                badInput = false
-            } else {
-                playerInput = prompt(`You must enter "rock", "paper", or "scissors".`).toLowerCase()
-            }
-        }
-
-        let result = playRound(playerInput, computerInput)
-        rounds += 1
-        if (result == "win") {
-            console.log(`You Win! ${playerInput} beats ${computerInput}.`)
-            lastroundresult.innerHTML += `Round ${rounds} You Win! ${playerInput} beats ${computerInput}. <br>`
-            wins += 1
-        } else if (result == "lose") {
-            console.log(`You Lose! ${computerInput} beats ${playerInput}.`)
-            lastroundresult.innerHTML += `Round ${rounds} You Lose! ${computerInput} beats ${playerInput}. <br>`
-            losses += 1
-        } else {
-            console.log(`Round was a Tie! Both inputs were ${playerInput}.`)
-            lastroundresult.innerHTML += `Round ${rounds} was a Tie! Both inputs were ${playerInput}. <br>`
-            ties += 1
-        }
-    }
-    document.write(`Game Results: <br> Wins: ${wins} <br> Losses: ${losses} <br> Ties: ${ties} <br>`)
-    if (wins == losses) {
-        document.write(`Match was a tie!`)
-    } else if (wins > losses) {
-        document.write(`You won the match!`)
-    } else {
-        document.write(`You lost the match!`)
-    }
-
+function disableButtons() {
+    choices.forEach((choice) => choice.disabled = true)
 }
 
-game()
+function enableButtons() {
+    choices.forEach((choice) => choice.disabled = false)
+}
+
+function guiPlay(input) {
+    playerInput = input.target.id
+    computerInput = computerPlay()
+    let result = playRound(playerInput, computerInput)
+    if (result == "win") {
+        roundResult.textContent = `You win! ${playerInput} beats ${computerInput}.`
+        pDisplay.textContent = ++pScore
+    } else if (result == "lose") {
+        roundResult.textContent = `You lose! ${computerInput} beats ${playerInput}.`
+        cDisplay.textContent = ++cScore
+    } else {
+        roundResult.textContent = 'Round tie!'
+    }
+
+    if (pScore > 4) {
+        roundResult.textContent = 'You won the game!'
+        disableButtons()
+    }
+    if (cScore > 4) {
+        roundResult.textContent = 'You lost this game!'
+        disableButtons()
+    }
+    
+}
+
+const resetGame = () => {
+    pScore = 0
+    cScore = 0
+    pDisplay.textContent = 0
+    cDisplay.textContent = 0
+    roundResult.innerHTML = "<br>"
+    enableButtons()
+}
+
+choices.forEach((choice) => {
+    choice.addEventListener("click", guiPlay)
+})
+
+document.querySelector("#reset").addEventListener("click", resetGame)
 
 
 

@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    <p id="lastroundresult"></p>
-    <button id="rock" value="0">Rock</button>
-    <button id="paper" value="1">Paper</button>
-    <button id="scissors" value="2">Scissors</button>
-    <script src="main.js"></script>
+    <div class="container">
+        First to 5 wins!
+        <div id="scoreboxes">
+            Player Score: <span id="pDisplay">0</span> Computer Score <span id="cDisplay">0</span>
+        </div>
+        <p id="lastRoundResult"><br></p>
+        <div id="choices">
+            <button class="choice" id="rock" value="0">Rock</button>
+            <button class="choice" id="paper" value="1">Paper</button>
+            <button class="choice" id="scissors" value="2">Scissors</button>
+        </div>
+        <button id="reset">Reset Game</button>
+    </div>
 </body>
 </html>
