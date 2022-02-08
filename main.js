@@ -4,6 +4,7 @@ const cDisplay = document.querySelector("#cDisplay")
 const roundResult = document.querySelector("#lastRoundResult")
 let pScore = 0;
 let cScore = 0;
+const modal = document.querySelector(".modal")
 
 let playerInput, computerInput;
 
@@ -74,6 +75,7 @@ function guiPlay(input) {
     }
     
 }
+
 
 const resetGame = () => {
     pScore = 0
